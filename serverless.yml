@@ -1,0 +1,31 @@
+service: FastAPI-Lambda-Function
+package:
+  individually: true
+provider:
+  name: aws
+  profile: ${opt:aws-profile, "default"}
+  region: "us-west-2"
+  stage: ${opt:stage, "dev"}
+  runtime: python3.8
+
+plugins:
+  - serverless-offline
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+    usePoetry: true
+
+functions:
+  app:
+    handler: fastapi_serverless_sample.app.handler
+    environment:
+      STAGE: ${self:provider.stage}
+    events:
+      - http:
+          method: get
+          path: /
+      - http:
+          method: any
+          path: /{proxy+}
