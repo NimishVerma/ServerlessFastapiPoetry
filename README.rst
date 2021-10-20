@@ -1,0 +1,1 @@
+**A basic boilerplate/tutorial repo using Poetry package manger to setup a FastAPI project deployed using Serverless**
