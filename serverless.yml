@@ -11,10 +11,9 @@ provider:
 plugins:
   - serverless-offline
   - serverless-python-requirements
-
+  - serverless-lift
 custom:
   pythonRequirements:
-    dockerizePip: true
     usePoetry: true
 
 functions:
@@ -22,6 +21,7 @@ functions:
     handler: fastapi_serverless_sample.app.handler
     environment:
       STAGE: ${self:provider.stage}
+      TABLE_NAME: ${construct:myTable.tableName}
     events:
       - http:
           method: get
@@ -29,3 +29,7 @@ functions:
       - http:
           method: any
           path: /{proxy+}
+
+constructs:
+    myTable:
+        type: database/dynamodb-single-table
